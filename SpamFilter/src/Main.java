@@ -6,6 +6,7 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Main {
@@ -40,8 +41,9 @@ public class Main {
 		//close reader
 		reader.close();
 		
-		System.out.println(empList);
+		//System.out.println(empList);
 		int spam=0,ham=0;
+		
 		ArrayList<Table> table = new ArrayList<>();
 		for(int i=0;i<empList.size();i++)
 		{
@@ -63,11 +65,62 @@ public class Main {
 			table.add(temp1);
 		}
 		
-		System.out.println(table);
 		
+		
+/*		for(int i=0;i<table.size();i++){
+			Table temp = table.get(i);
+			System.out.println(temp);
+			String demo = temp.getText();
+			StopWords sw = new StopWords();
+			String demo2 = sw.removeChar("I like Music!!");
+			System.out.println(demo2);
+			
+		}*/
+//		System.out.println(table);
+		
+		StopWords sw = new StopWords();
+		String demo2 = sw.removeChar("I like Music!");
+		System.out.println(demo2);
 		System.out.println("spam is : " + spam + "\n ham is : " + ham );
+		String check = sw.removeStopWords("Prageet has a big dick won't wouldn wouldn't i me myself are is am during deepesh before");
+		System.out.println(check);
+		
+		for(int i=0;i<table.size();i++){
+			int label = table.get(i).getLabel();
+			String text = table.get(i).getText();
+			if(text!=null){
+				text = sw.removeChar(text);
+				System.out.println("text is -->" + text);
+				text = sw.removeStopWords(text);
+				System.out.println("text is -->" + text);
+				table.get(i).setText(text);
+			}
+		}
+		
+		
+		HashMap<String, Integer> mapAll = new HashMap<>();
+		HashMap<String, Integer> mapSpam = new HashMap<>();
+		HashMap<String, Integer> mapHam = new HashMap<>();		
+		Tokenization token = new Tokenization();
+/*		Table tt = new Table();
+		tt.setId(1);
+		tt.setText("Prageet is most Awesome Person In the World Prageet");
+		ArrayList<Table> arr = new ArrayList<>();
+		arr.add(tt);
+		System.out.println(tt);*/
+		
+		mapAll = token.tokenAll(table);
+//		System.out.println(mapAll);
+		mapSpam = token.tokenSpam(table);
+//		System.out.println(mapSpam);
+		mapHam = token.tokenHam(table);
+//		System.out.println(mapHam);
+		
 		
 	}
 	
-
 }
+
+
+
+		

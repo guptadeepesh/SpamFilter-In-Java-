@@ -1,3 +1,4 @@
+ 
 
 public class StopWords {
 	String stopWords[] = new String[]{"i", "me" , "my", "myself", "we", "our", "ours", 
@@ -22,4 +23,55 @@ public class StopWords {
 			"mightn't", "mustn", "mustn't", "needn", "needn't", "shan", "shan't",
 			"shouldn", "shouldn't", "wasn", "wasn't", "weren", "weren't", "won",
 			"won't", "wouldn", "wouldn't"};
+	
+	public String removeChar(String str)
+	{
+		String strr="";
+		String spChar[] = new String[]{"!","@","#","$","%","^","&","*","("
+				,")","_","-","+","=","|","[","]","{","}","\\",
+				";",":",",",".","/","?",">","<","\""};
+		for(int i=0;i<str.length();i++)
+		{
+			for(int j=0;j<spChar.length;j++)
+			{
+			//	System.out.println(str.substring(i,i+1) + spChar[j]);
+				if(str.substring(i,i+1).equals(spChar[j])){
+				//	System.out.println("INSIDE");
+					str = str.replace(spChar[j], " ");
+			//		System.out.println(strr);
+					break;
+			}	
+		}
+	}
+		return str;
+	}
+	
+	public String removeStopWords(String str)
+	{
+		String arr[] = str.split(" ");
+		for(int i=0;i<arr.length;i++)
+		{
+			for(int j=0;j<stopWords.length;j++)
+			{
+				if(arr[i].equals(stopWords[j]))
+				{
+					arr[i] = null;
+					break;
+				}
+			}
+		}
+		
+		String demo="";
+		for(int i=0;i<arr.length;i++)
+		{
+			if(arr[i] != null)
+			{
+				demo +=  " " + arr[i];
+			}
+		}
+		
+		return demo.trim();
+	}
+	
+	
 }
