@@ -379,6 +379,85 @@ private String stripSuffixes( String str ) {
 	        return arrstr;
 	    }
 	  
+	 /* public ArrayList<Table> complete(ArrayList<Table> table){
+		  
+		  Stemmer pa = new Stemmer();
+		  ArrayList<Table> stemTable = new ArrayList<>();
+		  for(int i=0;i<table.size();i++){
+			  String str = table.get(i).getText();
+			  int label = table.get(i).getLabel();
+			//  System.out.println(str);
+				if(str!=null){
+				String temp[] = str.split(" ");
+				String temp2 = "";
+				Table temp1 = new Table();
+					for(int j=0;j<temp.length;j++){	
+					if(temp[j].length()!=0){
+					//	System.out.println(pa.step5(pa.step4(pa.step3(pa.step2(pa.step1(temp[j]))))));
+					//	String temp3 = pa.step5(pa.step4(pa.step3(pa.step2(pa.step1(temp[j])))));
+					//	temp2 += temp3 + " ";
+						for (String demo : temp){
+				            String s1 = pa.step1(demo);
+				            String s2 = pa.step2(s1);
+				            String s3= pa.step3(s2);
+				            String s4= pa.step4(s3);
+				            String s5= pa.step5(s4);
+				            temp2 += s5 + " ";
+				        }
+						}
+					}
+					if(label==1){
+						temp1.setId(1);
+						temp1.setText(temp2);
+						stemTable.add(temp1);
+					}
+					else if(label==0){
+						temp1.setId(0);
+						temp1.setText(temp2);
+						stemTable.add(temp1);
+					}
+				}
+		  }  
+		  return stemTable;
+	  }
+	*/
 	  
-	
+	  public ArrayList<Table> complete(ArrayList<Table> table){
+		  
+		  ArrayList<Table> newTable = new ArrayList<>();
+		  Stemmer pa = new Stemmer();
+		  for(int i=0;i<table.size();i++){
+			  String text = table.get(i).getText();
+			  int label = table.get(i).getLabel();
+			  if(text!=null){
+				  String newText = "";
+				  String token[] = text.split(" ");
+				  for(int j=0;j<token.length;j++){
+					if(token[j].length()!=0){
+						String s1 = pa.step1(token[j]);
+			            String s2 = pa.step2(s1);
+			            String s3= pa.step3(s2);
+			            String s4= pa.step4(s3);
+			            String s5= pa.step5(s4);
+			        //    System.out.println("s5 is :::: " + s5 );
+			            newText += s5 + " ";
+			            
+					}
+				  }
+				  //System.out.println("new Text is :::: " + newText);
+				  Table temp = new Table();
+				  temp.setText(newText);
+				  if(label==1)
+					  temp.setId(1);
+				  else
+					  temp.setId(0);
+				//  System.out.println(temp.getLabel() + "::::" + temp.getText());
+				  newTable.add(temp);
+			  }
+		  }
+		  
+		  
+		  return newTable;
+		  
+	  }
 }

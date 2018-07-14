@@ -8,6 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Main {
 	public static void main(String[] args) throws IOException {
@@ -90,18 +91,15 @@ public class Main {
 			String text = table.get(i).getText();
 			if(text!=null){
 				text = sw.removeChar(text);
-				System.out.println("text is -->" + text);
+			//	System.out.println("text is -->" + text);
 				text = sw.removeStopWords(text);
-				System.out.println("text is -->" + text);
+			//	System.out.println("text is -->" + text);
 				table.get(i).setText(text);
 			}
 		}
 		
 		
-		HashMap<String, Integer> mapAll = new HashMap<>();
-		HashMap<String, Integer> mapSpam = new HashMap<>();
-		HashMap<String, Integer> mapHam = new HashMap<>();		
-		Tokenization token = new Tokenization();
+		
 /*		Table tt = new Table();
 		tt.setId(1);
 		tt.setText("Prageet is most Awesome Person In the World Prageet");
@@ -109,12 +107,39 @@ public class Main {
 		arr.add(tt);
 		System.out.println(tt);*/
 		
-		mapAll = token.tokenAll(table);
+		Stemmer st=new  Stemmer();
+		ArrayList<String> tok = new ArrayList<String>();
+        String[] tokens = {"normalize","technical","education","corresponding","available"};
+        for (String x: tokens){
+            tok.add(x);
+        }
+		System.out.println(st.completeStem(tok));
+		String nn = table.get(1).getText();
+		System.out.println(nn);
+		String temp[] = nn.split(" ");
+	//	for(int i=0;i<temp.length;i++)
+	//		System.out.println(temp[i] + "    " + temp[i].length());
+		
+		ArrayList<Table> newTable = new ArrayList<>();
+		newTable = st.complete(table);
+		
+		for(int i=0;i<newTable.size();i++){
+	//		System.out.println(newTable.get(i).getLabel() + "::::"  + newTable.get(i).getText());
+		}
+		
+		HashMap<String, Integer> mapAll = new HashMap<>();
+		HashMap<String, Integer> mapSpam = new HashMap<>();
+		HashMap<String, Integer> mapHam = new HashMap<>();		
+		Tokenization token = new Tokenization();
+		mapAll = token.tokenAll(newTable);
 //		System.out.println(mapAll);
-		mapSpam = token.tokenSpam(table);
+		mapSpam = token.tokenSpam(newTable);
 //		System.out.println(mapSpam);
-		mapHam = token.tokenHam(table);
+		mapHam = token.tokenHam(newTable);
 //		System.out.println(mapHam);
+		Set<String> ss = mapAll.keySet();
+		System.out.println(ss);
+		
 		
 		
 	}
