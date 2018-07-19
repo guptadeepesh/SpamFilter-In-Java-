@@ -120,10 +120,10 @@ public class Main {
 	//	for(int i=0;i<temp.length;i++)
 	//		System.out.println(temp[i] + "    " + temp[i].length());
 		
-		ArrayList<Table> newTable = new ArrayList<>();
-		newTable = st.complete(table);
+		ArrayList<Table> trainData = new ArrayList<>();
+		trainData = st.complete(table);
 		
-		for(int i=0;i<newTable.size();i++){
+		for(int i=0;i<trainData.size();i++){
 	//		System.out.println(newTable.get(i).getLabel() + "::::"  + newTable.get(i).getText());
 		}
 		
@@ -131,16 +131,42 @@ public class Main {
 		HashMap<String, Integer> mapSpam = new HashMap<>();
 		HashMap<String, Integer> mapHam = new HashMap<>();		
 		Tokenization token = new Tokenization();
-		mapAll = token.tokenAll(newTable);
+		mapAll = token.tokenAll(trainData);
 //		System.out.println(mapAll);
-		mapSpam = token.tokenSpam(newTable);
+		mapSpam = token.tokenSpam(trainData);
 //		System.out.println(mapSpam);
-		mapHam = token.tokenHam(newTable);
+		mapHam = token.tokenHam(trainData);
 //		System.out.println(mapHam);
-		Set<String> ss = mapAll.keySet();
-//		System.out.println(ss);
 		
 		
+		int numberSpam=0,numberHam=0;
+		for(int i=0;i<trainData.size();i++){
+			if(trainData.get(i).getLabel()==0)
+				numberHam++;
+			else
+				numberSpam++;
+		}
+		
+		ArrayList<Table> testData = new ArrayList<>();
+		int currentCountSpam=0, currentCountHam=0 , current=0;
+		int testDataHamCount = (int) (0.25*numberHam);
+		int testDataSpamCount = (int) (0.25*numberSpam);
+		
+		
+		for(int i=0;i<trainData.size();i++){
+			if(currentCountSpam < testDataSpamCount && trainData.get(i).getLabel()==1){
+				testData.add(trainData.get(i));
+				currentCountSpam++;
+				trainData.remove(i);
+			}
+			else if(currentCountHam < testDataHamCount && trainData.get(i).getLabel()==0){
+				testData.add(trainData.get(i));
+				currentCountHam++;
+				trainData.remove(i);
+			}
+			else if((currentCountSpam > testDataSpamCount)&& (currentCountHam > testDataHamCount))
+				break;	
+		}
 		
 	}
 	
