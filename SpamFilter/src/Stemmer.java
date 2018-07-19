@@ -447,11 +447,8 @@ private String stripSuffixes( String str ) {
 				  //System.out.println("new Text is :::: " + newText);
 				  Table temp = new Table();
 				  temp.setText(newText);
-				  if(label==1)
-					  temp.setId(1);
-				  else
-					  temp.setId(0);
-				//  System.out.println(temp.getLabel() + "::::" + temp.getText());
+				  temp.setId(label);
+				  System.out.println(temp.getLabel() + "::::" + temp.getText());
 				  newTable.add(temp);
 			  }
 		  }

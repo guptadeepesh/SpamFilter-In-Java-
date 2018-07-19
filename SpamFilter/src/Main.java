@@ -138,7 +138,7 @@ public class Main {
 		mapHam = token.tokenHam(newTable);
 //		System.out.println(mapHam);
 		Set<String> ss = mapAll.keySet();
-		System.out.println(ss);
+//		System.out.println(ss);
 		
 		
 		
